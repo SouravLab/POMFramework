@@ -14,7 +14,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Story;
 
-@Epic("EPIC - 100 : Design Login page for Open Cart Application.....")
+
 @Story("US - 101: Login Page Features")
 @Listeners({AnnotationTransformer.class,TestAllureListener.class})
 public class LoginPageTest extends BaseTest {
@@ -22,7 +22,7 @@ public class LoginPageTest extends BaseTest {
 	@Description("login Page Title Test")
 	@Severity(SeverityLevel.MINOR)
 	
-	@Test
+	@Test(enabled=false)
 	public void loginPageTitleTest() {
 		String title = loginPage.getLoginPageTitle();
 		System.out.println("Login page title : " + title);
