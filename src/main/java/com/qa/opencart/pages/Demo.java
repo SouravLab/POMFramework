@@ -4,8 +4,9 @@ public class Demo {
 
 	public static void main(String[] args) {
 		int age =10;
-		String name ="Sourav";
-		int sal=1000;
+		String name ="java";
+		System.out.println("hello");
+		
 
 	}
 
