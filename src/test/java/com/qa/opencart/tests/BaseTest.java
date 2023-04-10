@@ -27,9 +27,11 @@ public class BaseTest {
 	SoftAssert softAssert;
 	
 	@BeforeTest
+	
 	public void setUp() {
 		
 		df = new DriverFactory();
+		
 		prop=df.init_prop();
 		driver=df.init_driver(prop);
 		loginPage=new LoginPage(driver);

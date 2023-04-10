@@ -3,17 +3,21 @@ package com.qa.opencart.pages;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
+import com.qa.opencart.factory.DriverFactory;
 import com.qa.opencart.utils.Constants;
 import com.qa.opencart.utils.ElementUtil;
 
 import io.qameta.allure.Step;
 
 public class LoginPage {
+
 	// page class never have assert.only testclass has assert
 	private WebDriver driver;
 	private ElementUtil eleUtil;
-	// this page is not responsible for initialing the driver driverfactory class is
+	// this page is not responsible for initialing the driver, driverfactory class
+	// is
 	// responsible for it.
+
 	// 1. private by locator
 	private By emailId = By.id("input-email");
 	private By password = By.id("input-password");
@@ -25,6 +29,7 @@ public class LoginPage {
 	public LoginPage(WebDriver driver) {
 		this.driver = driver;
 		eleUtil = new ElementUtil(driver);
+		
 
 	}
 
@@ -46,10 +51,15 @@ public class LoginPage {
 	}
 
 	@Step("Login with user name : {0} and password {1}")
+
 	public AccountsPage doLogin(String userNmae, String pwd) {
-		eleUtil.doSendKeys(emailId, userNmae);
+
+		eleUtil.doSendKeys(emailId, userNmae);// locator,actual username
+
 		eleUtil.doSendKeys(password, pwd);
+
 		eleUtil.doClick(loginBtn);
+
 		return new AccountsPage(driver);
 	}
 

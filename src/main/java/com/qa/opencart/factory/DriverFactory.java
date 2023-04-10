@@ -27,35 +27,32 @@ public class DriverFactory {
 	public OptionManager optionsManager;
 
 	public static String highlight;
+
 	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal();
 
 	/**
-	 * this method is used to initialize the driver using browser name
+	 * this method is used to initialize the driver using browser name from
+	 * properties reference
 	 * 
-	 * @param browserName
-	 * @return 
+	 * @param Properties reference
 	 * @return this returns the webdriver
 	 */
-	public  WebDriver init_driver(Properties prop) {
+	public WebDriver init_driver(Properties prop) {
 		String browserName = prop.getProperty("browser").trim();
-		
-
-		highlight = prop.getProperty("highlight").trim();
-
-		
+		highlight = prop.getProperty(highlight);
 		optionsManager = new OptionManager(prop);
-
 		if (browserName.equalsIgnoreCase("chrome")) {
-				WebDriverManager.chromedriver().setup();
-				tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
-			}
-		else if (browserName.equalsIgnoreCase("firefox")) {
-			} else {
-				WebDriverManager.firefoxdriver().setup();
-				tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
-			}
-		 {
-			System.out.println("Please pass the right browser name : " + browserName);
+			WebDriverManager.chromedriver().setup();
+
+			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
+		} else if (browserName.equalsIgnoreCase("firefox")) {
+		} else {
+			WebDriverManager.firefoxdriver().setup();
+			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+		}
+		{
+			System.out.println("Please pass the right browser name.You have entered this browser : "
+					+ prop.getProperty(browserName));
 		}
 
 		getDriver().manage().deleteAllCookies();
@@ -72,9 +69,34 @@ public class DriverFactory {
 	public static WebDriver getDriver() {
 		return tlDriver.get();
 	}
+	
+
+	
+	// ThreadLocal -- JDK 8 --> create a local copy of driver
+	// set driver with TL
+	// getdriver() -- driver
+	// dribver null problem
+	// u can take ur driver copy anywhere in ur framework
+	// better thread management
+	// to avoid the dead local conditon -- TL driver copy
+	// large test cases count -- 200, 300 TCS --> proper test results
+
+	/**
+	 * take screenshot
+	 */
+	public static String getScreenshot() {
+		File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
+		String path = System.getProperty("user.dir") + "/screenshot/" + "sourav" + System.currentTimeMillis() + ".png";
+		File destination = new File(path);
+		try {
+			FileUtils.copyFile(srcFile, destination);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return path;
+	}
 	/*
 	 * this method is used to initialize the properties
-	 * 
 	 * @return this returns properties class reference
 	 */
 
@@ -92,55 +114,27 @@ public class DriverFactory {
 		}
 		return prop;
 	}
-	// ThreadLocal -- JDK 8 --> create a local copy of driver
-		// set driver with TL
-		// getdriver() -- driver
-		// dribver null problem
-		// u can take ur driver copy anywhere in ur framework
-		// better thread management
-		// to avoid the dead local conditon -- TL driver copy
-		// large test cases count -- 200, 300 TCS --> proper test results
+	
+	// take entire screen shot
+	public static String getEntirePageScreenshot() {
+		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000))
+				.takeScreenshot(getDriver());
+		String path = "C:\\Users\\Sourav\\Desktop\\A";
+		// System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis()
+		// + ".png";
+		//
+		File destination = new File(path);
 
-		/**
-		 * take screenshot
-		 */
-		public static String getScreenshot() {
-			File srcFile = ((TakesScreenshot) getDriver()).getScreenshotAs(OutputType.FILE);
-			String path = System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis() + ".png";
-			File destination = new File(path);
-			try {
-				FileUtils.copyFile(srcFile, destination);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-			return path;
+		try {
+			ImageIO.write(screenshot.getImage(), "PNG", destination);
+			// new File
+			// (System.getProperty("user.dir")+"\\screenshots\\fulllpagescreeshot.png"));
+		} catch (IOException e) {
+
+			e.printStackTrace();
 		}
-		
-		//take entire screen shot
-		public static String getEntirePageScreenshot() {
-			Screenshot screenshot=new AShot()
-					.shootingStrategy(ShootingStrategies.viewportPasting(1000))
-					.takeScreenshot(getDriver());
-			String path = "C:\\Users\\Sourav\\Desktop\\A";
-		//System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis() + ".png";
-			//
-			File destination = new File(path);
-			
-		
-        try {
-            ImageIO.write(screenshot.getImage(),"PNG",destination);
-            		//new File (System.getProperty("user.dir")+"\\screenshots\\fulllpagescreeshot.png"));
-        } catch (IOException e) {
-           
-            e.printStackTrace();
-        }
 		return path;
-		
-        
-        
-       
-    }
-            
-		
-		
+
+	}
+
 }

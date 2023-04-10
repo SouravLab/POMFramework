@@ -17,7 +17,9 @@ public class OptionManager {
 
 	public ChromeOptions getChromeOptions() {
 		co = new ChromeOptions();
-		if (Boolean.parseBoolean(prop.getProperty("headless"))) co.addArguments("--headless");
+		
+		if (Boolean.parseBoolean(prop.getProperty("headless")))  co.addArguments("--headless");
+		
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
 	return co;
 	
