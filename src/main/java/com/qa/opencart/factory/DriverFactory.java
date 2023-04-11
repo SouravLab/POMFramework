@@ -39,21 +39,13 @@ public class DriverFactory {
 	 */
 	public WebDriver init_driver(Properties prop) {
 		String browserName = prop.getProperty("browser").trim();
-		highlight = prop.getProperty(highlight);
+		highlight = prop.getProperty("highlight").trim();
 		optionsManager = new OptionManager(prop);
-		if (browserName.equalsIgnoreCase("chrome")) {
+		  if(browserName.equalsIgnoreCase("chrome"));{
 			WebDriverManager.chromedriver().setup();
-
 			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
-		} else if (browserName.equalsIgnoreCase("firefox")) {
-		} else {
-			WebDriverManager.firefoxdriver().setup();
-			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
-		}
-		{
-			System.out.println("Please pass the right browser name.You have entered this browser : "
-					+ prop.getProperty(browserName));
-		}
+		  }
+		
 
 		getDriver().manage().deleteAllCookies();
 		getDriver().manage().window().maximize();

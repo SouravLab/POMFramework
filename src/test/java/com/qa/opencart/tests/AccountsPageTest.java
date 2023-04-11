@@ -7,6 +7,7 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
 
+import com.qa.opencart.pages.ResultsPage;
 import com.qa.opencart.utils.Constants;
 
 public class AccountsPageTest extends BaseTest {
@@ -83,27 +84,21 @@ Assert.assertEquals(actualSectionList, Constants.ACCOUNT_PAGE_SECTION_LIST);
 	@DataProvider
 	public Object[][] productSelectData() {
 		return new Object[][] {
-			{"MacBook","Search - MacBook Pro"},
-			{"MacBook","Search - MacBook Air"},
-			{"imac","Search - imac"},
-			{"apple","Search - Apple Cinema 30\""}
+			{"Macbook", "MacBook Pro"},
+			{"Macbook", "MacBook Air"},
+			{"iMac", "iMac"},
+			{"Apple", "Apple Cinema 30\""}
 		};
 	}
 	
-	
-	
-	
-	
-	@Test(dataProvider="productSelectData")
-	public void selectProductTest(String prodName,String mainProductName) {
-		resultPage=	accPage.doSearch(prodName);
-		productInfoPage=resultPage.selectProduct(mainProductName);
-		System.out.println(productInfoPage.getProductHeaderName());
+	@Test(dataProvider = "productSelectData")
+	public void selectProductTest(String productName, String mainProductName) {
+		resultPage = accPage.doSearch(productName);
+		productInfoPage = resultPage .selectProduct(mainProductName);
 		Assert.assertEquals(productInfoPage.getProductHeaderName(), mainProductName);
-		
-		
-		
 	}
+	
+
 	
 
 }

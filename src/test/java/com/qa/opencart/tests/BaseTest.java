@@ -29,9 +29,7 @@ public class BaseTest {
 	@BeforeTest
 	
 	public void setUp() {
-		
 		df = new DriverFactory();
-		
 		prop=df.init_prop();
 		driver=df.init_driver(prop);
 		loginPage=new LoginPage(driver);
@@ -41,7 +39,7 @@ public class BaseTest {
 	@AfterTest
 	public void tearDown() {
 		
-		driver.quit();
+		DriverFactory.getDriver().quit();
 		}
 	
 
