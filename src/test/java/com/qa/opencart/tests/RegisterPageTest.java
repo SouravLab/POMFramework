@@ -3,6 +3,7 @@ package com.qa.opencart.tests;
 import java.util.Random;
 
 import org.testng.Assert;
+import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Test;
@@ -11,7 +12,7 @@ import com.qa.opencart.utils.Constants;
 import com.qa.opencart.utils.ExcelUtils;
 
 public class RegisterPageTest extends BaseTest {
-	@BeforeTest
+	@BeforeClass
 	public void regPageSetup() {
 		regPage = loginPage.goToRegisterPage();
 	}

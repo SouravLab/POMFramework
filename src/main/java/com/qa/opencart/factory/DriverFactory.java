@@ -28,7 +28,7 @@ public class DriverFactory {
 
 	public static String highlight;
 
-	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal();
+	public static ThreadLocal<WebDriver> tlDriver = new ThreadLocal<WebDriver>();
 
 	/**
 	 * this method is used to initialize the driver using browser name from
