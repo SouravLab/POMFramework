@@ -3,7 +3,7 @@
 
 <suite name="Open Cart Regression Test Suite" thread-count="1"
 	parallel="tests" verbose="4">
-
+ <!--  to comment multiple line use shortcut ctrl+shift+/ -->
 
 	<listeners>
 
@@ -20,9 +20,13 @@
 
 	<test name="Login Page Test">
 		<classes>
+		
 			<class name="com.qa.opencart.tests.LoginPageTest" />
 		</classes>
 	</test>
+
+
+
 
 
 	<test name="Accounts Page Test">

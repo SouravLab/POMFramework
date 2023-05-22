@@ -39,7 +39,7 @@ public class DriverFactory {
 	 */
 	public WebDriver init_driver(Properties prop) {
 		String browserName = prop.getProperty("browser").trim();
-		highlight = prop.getProperty("highlight").trim();
+		highlight = prop.getProperty("highlight").trim().toLowerCase();
 		optionsManager = new OptionManager(prop);
 		  if(browserName.equalsIgnoreCase("chrome"));{
 			WebDriverManager.chromedriver().setup();

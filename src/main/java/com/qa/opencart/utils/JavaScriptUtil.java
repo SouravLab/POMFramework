@@ -15,8 +15,8 @@ public class JavaScriptUtil {
 		JavascriptExecutor js = ((JavascriptExecutor) driver);
 		
 		String bgcolor = element.getCssValue("backgroundColor");
-		for (int i = 0; i < 15; i++) {
-			changeColor("rgb(0,200,0)", element);// 1
+		for (int i = 0; i < 5; i++) {
+			changeColor("rgb(255,0,0)", element);// 1
 			changeColor(bgcolor, element);// 2
 		}
 	}

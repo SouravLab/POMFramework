@@ -80,6 +80,7 @@ public class ElementUtil {
 	}
 
 	public void doClick(String locatorType, String locatorValue) {
+		
 		getElement(getBy(locatorType, locatorValue)).click();
 	}
 
