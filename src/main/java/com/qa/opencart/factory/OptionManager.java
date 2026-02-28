@@ -17,6 +17,14 @@ public class OptionManager {
 
 	public ChromeOptions getChromeOptions() {
 		co = new ChromeOptions();
+		co.addArguments("--remote-allow-origins=*");
+		co.addArguments("--no-sandbox");
+		co.addArguments("--disable-dev-shm-usage");
+		// Use system Chrome binary if available
+		String chromeBinary = System.getenv("CHROME_BINARY");
+		if (chromeBinary != null && !chromeBinary.isEmpty()) {
+			co.setBinary(chromeBinary);
+		}
 		if (Boolean.parseBoolean(prop.getProperty("headless"))) co.addArguments("--headless");
 		if (Boolean.parseBoolean(prop.getProperty("incognito"))) co.addArguments("--incognito");
 		return co;

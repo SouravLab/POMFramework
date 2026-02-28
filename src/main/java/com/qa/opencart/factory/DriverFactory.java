@@ -43,7 +43,12 @@ public class DriverFactory {
 		optionsManager = new OptionManager(prop);
 
 		if (browserName.equalsIgnoreCase("chrome")) {
-			WebDriverManager.chromedriver().setup();
+			String chromeDriverPath = System.getenv("CHROMEDRIVER_PATH");
+			if (chromeDriverPath != null && !chromeDriverPath.isEmpty()) {
+				System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+			} else {
+				WebDriverManager.chromedriver().setup();
+			}
 			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
 		} else if (browserName.equalsIgnoreCase("firefox")) {
 			WebDriverManager.firefoxdriver().setup();
