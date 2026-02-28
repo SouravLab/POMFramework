@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.WorkbookFactory;
 
 public class ExcelUtils {
 
-	private static String TEST_DATA_SHEET = "D:\\RS_Workspace\\onlineShopping\\src\\test\\resources\\testData\\DemoCartTestlData.xlsx";
+	private static String TEST_DATA_SHEET = System.getProperty("user.dir") + "/src/test/resources/testData/DemoCartTestlData.xlsx";
     private static Workbook book;
 	private static Sheet sheet;
 	public static Object[][] getTestData(String sheetName) {

@@ -41,11 +41,21 @@ public class DriverFactory {
 		String browserName = prop.getProperty("browser").trim();
 		highlight = prop.getProperty("highlight").trim().toLowerCase();
 		optionsManager = new OptionManager(prop);
-		  if(browserName.equalsIgnoreCase("chrome"));{
-			WebDriverManager.chromedriver().setup();
+
+		if (browserName.equalsIgnoreCase("chrome")) {
+			String chromeDriverPath = System.getenv("CHROMEDRIVER_PATH");
+			if (chromeDriverPath != null && !chromeDriverPath.isEmpty()) {
+				System.setProperty("webdriver.chrome.driver", chromeDriverPath);
+			} else {
+				WebDriverManager.chromedriver().setup();
+			}
 			tlDriver.set(new ChromeDriver(optionsManager.getChromeOptions()));
-		  }
-		
+		} else if (browserName.equalsIgnoreCase("firefox")) {
+			WebDriverManager.firefoxdriver().setup();
+			tlDriver.set(new FirefoxDriver(optionsManager.getFirefoxOptions()));
+		} else {
+			throw new IllegalArgumentException("Unsupported browser: " + browserName);
+		}
 
 		getDriver().manage().deleteAllCookies();
 		getDriver().manage().window().maximize();
@@ -97,13 +107,26 @@ public class DriverFactory {
 		prop = new Properties();
 		try {
 			FileInputStream file = new FileInputStream(
-					"D:\\RS_Workspace\\onlineShopping\\src\\test\\resources\\config\\config.properties");
+					System.getProperty("user.dir") + "/src/test/resources/config/config.properties");
 			prop.load(file);
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
+		// Override with environment variables if config values contain placeholders
+		for (String key : prop.stringPropertyNames()) {
+			String value = prop.getProperty(key);
+			if (value != null && value.startsWith("${") && value.endsWith("}")) {
+				String envVar = value.substring(2, value.length() - 1);
+				String envValue = System.getenv(envVar);
+				if (envValue != null) {
+					prop.setProperty(key, envValue);
+				}
+			}
+		}
+
 		return prop;
 	}
 	
@@ -111,10 +134,8 @@ public class DriverFactory {
 	public static String getEntirePageScreenshot() {
 		Screenshot screenshot = new AShot().shootingStrategy(ShootingStrategies.viewportPasting(1000))
 				.takeScreenshot(getDriver());
-		String path = "C:\\Users\\Sourav\\Desktop\\A";
-		// System.getProperty("user.dir") + "/screenshot/" + System.currentTimeMillis()
-		// + ".png";
-		//
+		String path = System.getProperty("user.dir") + "/screenshot/" + "fullpage_" + System.currentTimeMillis()
+				+ ".png";
 		File destination = new File(path);
 
 		try {
